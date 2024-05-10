@@ -49,23 +49,23 @@ pipeline {
         }
     
     
-    post {
-        success {
-            // Send success notification email with logs attachment
-            mail to: "sribhavana27@gmail.com",
-                body: "Pipeline succeeded. Please find attached logs.",
-                     subject: "Pipeline Success Notification"
-                     
-                     
+        post {
+            success {
+                // Send success notification email with logs attachment
+                mail to: "sribhavana27@gmail.com",
+                    body: "Pipeline succeeded. Please find attached logs.",
+                        subject: "Pipeline Success Notification"
+                        
+                        
+            }
+            failure {
+                // Send failure notification email with logs attachment
+                mail to: "sribhavana27@gmail.com",
+                    body: "Pipeline failed. Please find attached logs.",
+                        subject: "Pipeline Failure Notification"
+                        
+                        
+            }
         }
-        failure {
-            // Send failure notification email with logs attachment
-            mail to: "sribhavana27@gmail.com",
-                body: "Pipeline failed. Please find attached logs.",
-                     subject: "Pipeline Failure Notification"
-                     
-                     
-        }
-    }
     }
 }
