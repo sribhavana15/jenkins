@@ -47,22 +47,25 @@ pipeline {
                 echo "Deploying the code to the production environment (${env.PRODUCTION_ENVIRONMENT})"
             }
         }
-    }
+    
     
     post {
         success {
             // Send success notification email with logs attachment
-            emailext body: "Pipeline succeeded. Please find attached logs.",
-                     subject: "Pipeline Success Notification",
-                     to: "sribhavana27@gmail.com"
+            mail to: "sribhavana27@gmail.com",
+                body: "Pipeline succeeded. Please find attached logs.",
+                     subject: "Pipeline Success Notification"
+                     
                      
         }
         failure {
             // Send failure notification email with logs attachment
-            emailext body: "Pipeline failed. Please find attached logs.",
-                     subject: "Pipeline Failure Notification",
-                     to: "sribhavana27@gmail.com"
+            mail to: "sribhavana27@gmail.com",
+                body: "Pipeline failed. Please find attached logs.",
+                     subject: "Pipeline Failure Notification"
+                     
                      
         }
+    }
     }
 }
