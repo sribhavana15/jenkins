@@ -1,39 +1,68 @@
-pipeline { 
+pipeline {
     agent any
     environment {
-         DIRECTORY_PATH = 'E:/Jenkinsfile/Jenkinsfile.txt' TESTING_ENVIRONMENT = 'Testing' PRODUCTION_ENVIRONMENT = 'Barani'
-        }
-    stages {
-    stage('Build') { 
-                    steps {
-                             echo "Fetching source code from ${DIRECTORY_PATH}"
-                            echo "Compiling the code and generating artifacts" 
-                            }
-                    }
-    stage('Test') {
-                    steps {
-                    echo "Running unit tests"
-                    echo "Running integration tests"
-                        } 
-                    }
-    stage('Code Quality Check') { 
-                                steps {
-                                echo "Checking" 
-                                }
-                    }
-    stage('Deploy') {
-                        steps {
-                                echo "Deploying the application to ${TESTING_ENVIRONMENT} environment" }
-                    }
-    stage('Approval') {
-                        steps { script {
-                        echo "Waiting for manual approval..."
-                        sleep 10 }
-                        } 
-                    }
-    stage('Deploy to Production') { 
-        steps {
-        echo "Deploying the application to ${PRODUCTION_ENVIRONMENT} environment" }
+        DIRECTORY_PATH = "C:/ProgramData/Jenkins/.jenkins/workspace/github"
+        TESTING_ENVIRONMENT = "testing"
+        PRODUCTION_ENVIRONMENT = "Bhavana_production"
     }
- }
+    
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                 echo "Fetching the source code from the directory path specified by the environment variable: ${env.DIRECTORY_PATH}"
+                echo "Compiling the code and generating any necessary artifacts"
+                }
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo "Unit and Integration Tests"
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo "Code Analysis"
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo "Security Scan"
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                
+                    echo "Integration Testing"
+                    
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploying the code to the production environment (${env.PRODUCTION_ENVIRONMENT})"
+            }
+        }
+    }
+    
+    post {
+        success {
+            // Send success notification email with logs attachment
+            emailext body: "Pipeline succeeded. Please find attached logs.",
+                     subject: "Pipeline Success Notification",
+                     to: "sribhavana27@gmail.com"
+                     
+        }
+        failure {
+            // Send failure notification email with logs attachment
+            emailext body: "Pipeline failed. Please find attached logs.",
+                     subject: "Pipeline Failure Notification",
+                     to: "sribhavana27@gmail.com"
+                     
+        }
+    }
 }
