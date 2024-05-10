@@ -1,32 +1,69 @@
-pipeline { agent any
-environment {
-DIRECTORY_PATH = "C:/ProgramData/Jenkins/.jenkins/workspace/github"
-        TESTING_ENVIRONMENT = "testing"
-        PRODUCTION_ENVIRONMENT = "Bhavana_production"
-}
-stages {
-stage('Build') { steps {
-echo "Fetching source code from ${DIRECTORY_PATH}"
-echo "Compiling the code and generating artifacts" }
-}
-stage('Test') {
-steps {
-echo "Running unit tests"
-echo "Running integration tests"
-} }
-stage('Code Quality Check') { steps {
-echo "Checking" }
-}
-stage('Deploy') {
-steps {
-echo "Deploying the application to ${TESTING_ENVIRONMENT} environment" }
-}
-stage('Approval') {
-steps { script {
-echo "Waiting for manual approval..."
-sleep 10 }
-} }
-stage('Deploy to Production') { steps {
-echo "Deploying the application to ${PRODUCTION_ENVIRONMENT} environment" }
-} }
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the code...'
+                // Tool: Maven
+            }
+        }
+        
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit tests...'
+                // Tool: JUnit
+                echo 'Running integration tests...'
+                // Tool: Selenium
+            }
+        }
+        
+        stage('Code Analysis') {
+            steps {
+                echo 'Running code analysis...'
+                // Tool: SonarQube
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                echo 'Performing security scan...'
+                // Tool: OWASP ZAP
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying to staging server...'
+                // Tool: AWS CLI
+            }
+        }
+        
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on staging...'
+                // Tool: Postman
+            }
+        }
+        
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to production server...'
+                // Tool: AWS CLI
+            }
+        }
+    }
+    
+    post {
+        success {
+            mail to: "sribhavana27@gmail.com",
+                subject: "Build Status Email",
+                body: "Build was successfull!"
+        }
+        failure {
+            mail to: "sribhavana27@gmail.com",
+                subject: "Build Status Email",
+                body: "Build was Failure!"
+        }
+    }
 }
